@@ -1,22 +1,17 @@
 package com.example.amigosspringboot.model;
 
-import net.sf.oval.constraint.NotEmpty;
-import net.sf.oval.constraint.NotNull;
-import org.springframework.lang.NonNull;
-
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
 public class Person {
 
     private final UUID id;
+    @NotBlank
+    private final String name;
 
-    @NotEmpty
-    @NonNull
-    private final String named;
-
-    public Person(UUID id, @NotNull String named) {
+    public Person(UUID id, String name) {
         this.id = id;
-        this.named = named;
+        this.name = name;
     }
 
     public UUID getId() {
@@ -24,6 +19,6 @@ public class Person {
     }
 
     public String getName() {
-        return named;
+        return name;
     }
 }

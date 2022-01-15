@@ -5,7 +5,10 @@ import com.example.amigosspringboot.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.UUID;
 
 @RequestMapping("/api/v1/person")
 @RestController
@@ -19,11 +22,7 @@ public class PersonController {
     }
 
     @PostMapping
-    public void addPerson(@RequestBody Person person) {
-        //System.out.println(person.getId());
-        //System.out.println(person.getName());
-        //System.out.println(person.toString());
-
+    public void addPerson(@NotNull @Valid @RequestBody Person person) {
         personService.addPerson(person);
     }
 
@@ -31,4 +30,21 @@ public class PersonController {
     public List<Person> getAllPeople() {
         return personService.getAllPeople();
     }
+
+    @GetMapping(path = "{id}")
+    public Person getPersonById(@PathVariable("id") UUID id) {
+        return personService.getPersonById(id)
+                .orElse(null);
+    }
+
+    @DeleteMapping(path = "{id}")
+    public void deletePersonByID(@PathVariable("id") UUID id) {
+        personService.deletePerson(id);
+    }
+
+    @PutMapping(path = "{id}")
+    public void updatePersonById(@NotNull @Valid @RequestBody Person person, @PathVariable("id") UUID id) {
+        personService.updatePerson(id, person);
+    }
+
 }
